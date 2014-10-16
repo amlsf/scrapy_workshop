@@ -5,6 +5,8 @@ from scrapy import Spider, Item, Field, Request
 import urlparse
 import json
 
+# Notes: adds pagination
+
 
 class Wine(Item):
     link = Field()
@@ -13,8 +15,6 @@ class Wine(Item):
     wine_type = Field()
     tag_data = Field()
     region = Field()
-    # customer_reviews = scrapy.Field()
-    # ratings = scrapy.Field()
 
 
 class DrunkSpider(Spider):
@@ -98,8 +98,5 @@ class DrunkSpider(Spider):
                     region = omniture_props.get("Region")
                     if region:
                         wine_product['region'] = region
-
-                # Could show another way to get the price:
-                # tag_price = omniture_props.get('Price')
 
         yield wine_product

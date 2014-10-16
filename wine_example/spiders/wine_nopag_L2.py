@@ -5,12 +5,16 @@ from scrapy import Spider, Item, Field, Request
 import urlparse
 import json
 
+# Notes: adds additional attributes, uses XPath; show 2nd way to get price from javascript script tag
+
 
 class Wine(Item):
     link = Field()
     name = Field()
     price = Field()
+
     wine_type = Field()
+
     tag_data = Field()
     region = Field()
 
@@ -77,7 +81,7 @@ class DrunkSpider(Spider):
                     if region:
                         wine_product['region'] = region
 
-                # Could show another way to get the price:
+                # NOTES: show audience another way to get the price:
                 # tag_price = omniture_props.get('Price')
 
         yield wine_product
