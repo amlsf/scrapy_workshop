@@ -5,14 +5,7 @@ from scrapy import Spider, Item, Field, Request
 import urlparse
 import json
 
-# TODO add reviews, regex? How store multiple reivews?
-# TODO Production code: talk about logging, errback, testing? Learn how to test the siphon way
-
-# YELP:
-# TODO Selector? Why use in Yelp instead of just calling .css directly on response?
-# sel = Selector(response=response)
-# businesses = sel.css(".column-alpha li")
-# TODO why using del?
+# Notes adds gathering customer reviews
 
 
 class Wine(Item):
@@ -22,8 +15,8 @@ class Wine(Item):
     wine_type = Field()
     tag_data = Field()
     region = Field()
-    # customer_reviews = scrapy.Field()
-    # ratings = scrapy.Field()
+    customer_review = scrapy.Field()
+    rating = scrapy.Field()
 
 
 class DrunkSpider(Spider):
@@ -71,8 +64,6 @@ class DrunkSpider(Spider):
             request = Request(product_url, meta=meta, callback=self.parse_product)
             yield request
 
-    # TODO issue here with method being "static"? But works fine without the @staticmethod decorator - necessary to add?
-    # No need for self because not calling any callbacks, but if I remove it, it blows up?
     def parse_product(self, response):
         wine_product = Wine()
         wine_product['link'] = response.url
@@ -111,7 +102,29 @@ class DrunkSpider(Spider):
                     if region:
                         wine_product['region'] = region
 
-                # Could show another way to get the price:
-                # tag_price = omniture_props.get('Price')
+        reviews_link_list = response.css('#ctl00_BodyContent_lnkViewAll::attr(href)').extract()
+        if reviews_link_list:
+            all_reviews_link = urlparse.urljoin(response.url, reviews_link_list[0])
+            meta['wine_item'] = wine_product
+            yield Request(all_reviews_link, meta=meta, callback=self.get_prod_reviews)
+        else:
+            yield wine_product
 
-        yield wine_product
+    def get_prod_reviews(self, response):
+        meta = response.meta
+
+        if 'wine_item' not in meta:
+            return
+
+        # TODO is this still going to be the right type or will have to store in meta dict?
+        wine_product = meta['wine_item']
+
+        review_block_sel = response.css('#reviewBlock')
+
+        review_block = review_block_sel.css(
+            '#ctl00_BodyContent_rptCommunityReviewsFinal_ctl00_ctrUserProductReviewContent_ctrStarRating_ctrStarsBlock')
+
+
+
+
+
