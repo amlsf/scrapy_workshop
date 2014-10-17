@@ -64,8 +64,9 @@ class DrunkSpider(Spider):
             wine_product['wine_type'] = wine_type
 
         tag_data_list = response.xpath(
-            '/html/head/link[contains(@href,"//fonts.googleapis.com")]/following-sibling::*/text()').extract()
         # TODO change to regex
+            '/html/head/link[contains(@href,"//fonts.googleapis.com")]'
+            '/following-sibling::script/text()').extract()
         if tag_data_list:
             tag_data_str = tag_data_list[0]
             start = tag_data_str.find('{')
