@@ -24,7 +24,7 @@ class Wine(Item):
 
 
 class DrunkSpider(Spider):
-    name = 'wine-demo'
+    name = 'wine-demo-L4'
     start_urls = ['http://www.wine.com/v6/wineshop/']
 
     # TODO add pagination logic here

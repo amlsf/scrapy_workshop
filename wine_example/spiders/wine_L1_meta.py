@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from scrapy import Spider, Item, Field, Request
+from scrapy import Item, Field, Request
 import urlparse
 from .wine_L1 import DrunkSpider
 # Notes: 1) explain defaults start_requests & parse() method and 2) introduce meta
@@ -14,6 +14,8 @@ class Wine(Item):
 
 
 class MetaDrunkSpider(DrunkSpider):
+    name = '%s-meta' % DrunkSpider.name
+
     def parse(self, response):
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')

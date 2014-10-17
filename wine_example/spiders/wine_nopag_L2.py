@@ -20,7 +20,7 @@ class Wine(Item):
 
 
 class DrunkSpider(Spider):
-    name = 'wine-demo'
+    name = 'wine-demo-L2'
     start_urls = ['http://www.wine.com/v6/wineshop/']
 
     def parse(self, response):
