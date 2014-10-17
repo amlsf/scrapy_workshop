@@ -21,6 +21,9 @@ class DrunkSpider(Spider):
             yield Request(url, callback=self.parse)
 
     def parse(self, response):
+        """
+        :type response: scrapy.http.response.html.HtmlResponse
+        """
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
 
