@@ -10,11 +10,11 @@ import urlparse
 class Wine(Item):
     link = Field()
     name = Field()
+    # price = Field()
 
 
 class DrunkSpider(Spider):
     name = 'wine-demo'
-    # start_urls = ['http://www.wine.com/v6/wineshop/']
 
     def start_requests(self):
         return (Request(url, callback=self.parse)
@@ -32,8 +32,13 @@ class DrunkSpider(Spider):
 
             product_url = urlparse.urljoin(response.url, link)
 
-            request = Request(product_url, callback=self.parse_product_page)
+            meta = dict()
+            price_list = product.css('[itemprop="price"]::text').extract()
+            if price_list:
+                current_price = price_list[0]
+                meta['price'] = current_price
 
+            request = Request(product_url, meta=meta, callback=self.parse_product_page)
             yield request
 
     # TODO ask Matthew about static method here
@@ -45,5 +50,9 @@ class DrunkSpider(Spider):
         wine_name = product.css('[itemprop="name"]::text').extract()
         if wine_name:
             wine_product['name'] = wine_name[0]
+
+        meta = response.meta
+        if 'price' in meta:
+            wine_product['price'] = meta['price']
 
         yield wine_product

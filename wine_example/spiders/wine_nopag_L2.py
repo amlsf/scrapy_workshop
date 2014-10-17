@@ -41,10 +41,11 @@ class DrunkSpider(Spider):
                 current_price = price_list[0]
                 meta['price'] = current_price
 
-            request = Request(product_url, meta=meta, callback=self.parse_product)
+            request = Request(product_url, meta=meta, callback=self.parse_product_page)
             yield request
 
-    def parse_product(self, response):
+    # TODO ask Matthew about static method here
+    def parse_product_page(self, response):
         wine_product = Wine()
         wine_product['link'] = response.url
 
@@ -64,6 +65,7 @@ class DrunkSpider(Spider):
 
         tag_data_list = response.xpath(
             '/html/head/link[contains(@href,"//fonts.googleapis.com")]/following-sibling::*/text()').extract()
+        # TODO change to regex
         if tag_data_list:
             tag_data_str = tag_data_list[0]
             start = tag_data_str.find('{')

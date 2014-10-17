@@ -21,25 +21,9 @@ class DrunkSpider(Spider):
     name = 'wine-demo'
     start_urls = ['http://www.wine.com/v6/wineshop/']
 
+   # TODO add pagination logic here
     def parse(self, response):
-        """
-        handles pagination
-        """
-        # handles parsing current page (of 10), which is disabled in HTML
-        yield Request(response.url, callback=self.get_product_links)
-
-        paging_sel = response.css('.listPaging')
-        # handles parsing the remaining 9 pages of 10
-        page_list = paging_sel.css('span > a::attr(href)').extract()
-        for page in page_list:
-            page_link = urlparse.urljoin(response.url, page)
-            yield Request(page_link, callback=self.get_product_links)
-
-        # re-queues the link to the first page of the next set of 10 pages
-        next_10_list = paging_sel.css('#ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNextX::attr(href)').extract()
-        if next_10_list:
-            next_10_link = urlparse.urljoin(response.url, next_10_list[0])
-            yield Request(next_10_link, callback=self.parse)
+        pass
 
     def get_product_links(self, response):
         product_list = response.css('.productList')
@@ -59,10 +43,11 @@ class DrunkSpider(Spider):
                 current_price = price_list[0]
                 meta['price'] = current_price
 
-            request = Request(product_url, meta=meta, callback=self.parse_product)
+            request = Request(product_url, meta=meta, callback=self.parse_product_page)
             yield request
 
-    def parse_product(self, response):
+    # TODO ask Matthew about static method here
+    def parse_product_page(self, response):
         wine_product = Wine()
         wine_product['link'] = response.url
 
@@ -82,6 +67,7 @@ class DrunkSpider(Spider):
 
         tag_data_list = response.xpath(
             '/html/head/link[contains(@href,"//fonts.googleapis.com")]/following-sibling::*/text()').extract()
+        # TODO change to regex
         if tag_data_list:
             tag_data_str = tag_data_list[0]
             start = tag_data_str.find('{')
