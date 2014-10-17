@@ -36,12 +36,13 @@ class DrunkSpider(Spider):
 
             yield request
 
-    # TODO ask Matthew about static method here
-    def parse_product_page(self, response):
+    @staticmethod
+    def parse_product_page(response):
         wine_product = Wine()
         wine_product['link'] = response.url
 
         product = response.css('[itemtype="http://schema.org/Product"]')
+        # TALK about xpath method too
         wine_name = product.css('[itemprop="name"]::text').extract()
         if wine_name:
             wine_product['name'] = wine_name[0]

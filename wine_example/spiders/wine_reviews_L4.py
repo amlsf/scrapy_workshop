@@ -8,6 +8,10 @@ import json
 # Add gathering customer reviews & ratings
 
 
+class WineReview(Item):
+    review = Field()
+
+
 class Wine(Item):
     link = Field()
     name = Field()
@@ -16,7 +20,7 @@ class Wine(Item):
     tag_data = Field()
     region = Field()
     customer_review = Field()
-    rating = Field()
+    rating = WineReview()
 
 
 class DrunkSpider(Spider):
@@ -76,7 +80,7 @@ class DrunkSpider(Spider):
             if start != -1 and end != -1:
                 tag_data_json = tag_data_str[start:end+1]
 
-                # TODO add some try except and show logging here
+                # TODO add some try except
                 tag_data = json.loads(tag_data_json)
 
                 wine_product['tag_data'] = tag_data

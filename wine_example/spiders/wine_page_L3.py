@@ -46,8 +46,8 @@ class DrunkSpider(Spider):
             request = Request(product_url, meta=meta, callback=self.parse_product_page)
             yield request
 
-    # TODO ask Matthew about static method here
-    def parse_product_page(self, response):
+    @staticmethod
+    def parse_product_page(response):
         wine_product = Wine()
         wine_product['link'] = response.url
 

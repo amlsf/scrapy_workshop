@@ -44,8 +44,8 @@ class DrunkSpider(Spider):
             request = Request(product_url, meta=meta, callback=self.parse_product_page)
             yield request
 
-    # TODO ask Matthew about static method here
-    def parse_product_page(self, response):
+    @staticmethod
+    def parse_product_page(response):
         wine_product = Wine()
         wine_product['link'] = response.url
 
@@ -83,7 +83,7 @@ class DrunkSpider(Spider):
                     if region:
                         wine_product['region'] = region
 
-                # NOTES: show audience another way to get the price:
+                # another way to get the price:
                 # tag_price = omniture_props.get('Price')
 
         yield wine_product
