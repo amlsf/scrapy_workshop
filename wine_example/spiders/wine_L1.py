@@ -17,8 +17,8 @@ class DrunkSpider(Spider):
     # start_urls = ['http://www.wine.com/v6/wineshop/']
 
     def start_requests(self):
-        return (Request(url, callback=self.parse)
-                for url in ['http://www.wine.com/v6/wineshop/'])
+        for url in ['http://www.wine.com/v6/wineshop/']:
+            yield Request(url, callback=self.parse)
 
     def parse(self, response):
         product_list = response.css('.productList')
