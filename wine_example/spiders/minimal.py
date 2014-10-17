@@ -9,4 +9,4 @@ class BasicSpider(scrapy.Spider):
                 for url in ['http://www.yahoo.com'])
 
     def parse(self, response):
-        self.log('GETTING URL: %s' % response.url)
+        self.log('Fetched URL: %s' % response.url)
