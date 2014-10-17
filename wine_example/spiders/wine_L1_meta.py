@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from scrapy import Spider, Item, Field, Request
 import urlparse
-
+from .wine_L1 import DrunkSpider
 # Notes: 1) explain defaults start_requests & parse() method and 2) introduce meta
 
 
@@ -13,13 +13,7 @@ class Wine(Item):
     # price = Field()
 
 
-class DrunkSpider(Spider):
-    name = 'wine-demo'
-
-    def start_requests(self):
-        return (Request(url, callback=self.parse)
-                for url in ['http://www.wine.com/v6/wineshop/'])
-
+class MetaDrunkSpider(DrunkSpider):
     def parse(self, response):
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
