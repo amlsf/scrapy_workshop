@@ -3,6 +3,7 @@ SPIDER_MODULES = ['wine_example.spiders']
 # indicates where to put newly generated spiders
 NEWSPIDER_MODULE = SPIDER_MODULES[0]
 COOKIES_ENABLED = False
+COOKIES_DEBUG = True
 
 # BEGIN: slow down request settings for class
 CONCURRENT_REQUESTS = 1
