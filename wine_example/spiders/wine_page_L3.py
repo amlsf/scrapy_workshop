@@ -19,11 +19,18 @@ class Wine(Item):
 
 class DrunkSpider(Spider):
     name = 'wine-demo-L3'
-    start_urls = ['http://www.wine.com/v6/wineshop/']
+    start_urls = ['http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100']
 
    # TODO add pagination logic here
     def parse(self, response):
         pass
+        """
+<a id="ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext"
+   href="/v6/wineshop/default.aspx?state=CA&amp;pagelength=100&amp;Nao=100">Next</a>
+
+Bottoms out at 5100:
+http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
+        """
 
     def get_product_links(self, response):
         product_list = response.css('.productList')
