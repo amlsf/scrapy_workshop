@@ -2,10 +2,9 @@
 from __future__ import unicode_literals
 
 from scrapy import Spider, Item, Field, Request
+import re
 import urlparse
 import json
-
-# Notes: adds pagination
 
 
 class WineItem(Item):
@@ -13,7 +12,6 @@ class WineItem(Item):
     name = Field()
     price = Field()
     wine_type = Field()
-    tag_data = Field()
     region = Field()
 
 
@@ -40,41 +38,49 @@ http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
         products = product_list.css('.verticalListItem')
 
         for product in products:
+            wine_product = WineItem()
+
+            # get product link
             links_list = product.css('.listProductName::attr(href)').extract()
             if not links_list:
                 continue
+
             link = links_list[0]
+            wine_product['link'] = urlparse.urljoin(response.url, link)
 
-            product_url = urlparse.urljoin(response.url, link)
+            # get name
+            wine_name = product.css('.listProductName::text').extract()
+            if wine_name:
+                wine_product['name'] = wine_name[0]
 
-            meta = dict()
+            # get price
             price_list = product.css('[itemprop="price"]::text').extract()
             if price_list:
                 current_price = price_list[0]
-                meta['price'] = current_price
+                wine_product['price'] = current_price
 
-            request = Request(product_url, meta=meta, callback=self.parse_product_page)
+            # store data already collected in meta to pass to callback function to use
+            meta = dict()
+            meta['wine_item'] = wine_product
+
+            request = Request(wine_product['link'], meta=meta, callback=self.parse_product_page)
             yield request
 
     @staticmethod
     def parse_product_page(response):
-        wine_product = WineItem()
-        wine_product['link'] = response.url
-
         meta = response.meta
-        if 'price' in meta:
-            wine_product['price'] = meta['price']
+        if meta and 'wine_item' in meta:
+            wine_product = meta['wine_item']
+        else:
+            return
 
-        product = response.css('[itemtype="http://schema.org/Product"]')
-        wine_name = product.css('[itemprop="name"]::text').extract()
-        if wine_name:
-            wine_product['name'] = wine_name[0]
-
+        # get wine type field
         wine_type_list = response.css('.wine-icons span[class=offscreen]::text').extract()
         if wine_type_list:
             wine_type = wine_type_list[0]
             wine_product['wine_type'] = wine_type
 
+        # get JSON from html to get region field
         tag_data_list = response.xpath(
             '/html/head/link[contains(@href,"//fonts.googleapis.com")]'
             '/following-sibling::script/text()').extract()
@@ -85,8 +91,8 @@ http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
             tag_json = re.sub(r';\s*$', '',
                               re.sub('^\s*var\s*[^{]+', '', tag_body1line))
             tag_data = json.loads(tag_json)
-            wine_product['tag_data'] = tag_data
 
+            # get region field
             omniture_props = tag_data.get('OmnitureProps')
             if omniture_props:
                 region = omniture_props.get("Region")

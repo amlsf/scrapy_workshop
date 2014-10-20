@@ -13,7 +13,6 @@ class WineItem(Item):
     link = Field()
     name = Field()
     price = Field()
-
     wine_type = Field()
     region = Field()
 
@@ -60,8 +59,6 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def parse_product_page(response):
-        # wine_product = WineItem()
-
         meta = response.meta
         if meta and 'wine_item' in meta:
             wine_product = meta['wine_item']
@@ -86,6 +83,7 @@ class DrunkSpider(Spider):
                               re.sub('^\s*var\s*[^{]+', '', tag_body1line))
             tag_data = json.loads(tag_json)
 
+            # get region field
             omniture_props = tag_data.get('OmnitureProps')
             if omniture_props:
                 region = omniture_props.get("Region")
