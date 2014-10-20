@@ -7,11 +7,12 @@ This repo contains Scrapy parsers demonstrated in Radius Intelligence's workshop
 
 There are four scrapers (Level 1 - 4) that collect data about the wine products from www.wine.com. The tasks are broken out into approximately four levels:
 
-* minimal.py spider: set up basic spider crawling yahoo homepage
-* L1 & L1_meta: Gets items containing link and product name fields
-* L2: Add additional fields: price, wine type, region, tag data (stored as a JSON object in the HTML)
-* L3: Add pagination to gather all 5000+ products
-* L4: Get ratings and reviews
+* minimal.py spider: set up basic spider to fetch yahoo url
+* L1 & L1_meta: Create a spider that creates an item type named 'Wine' containing link and product name fields for each wine product on the first page of 25 wine products at www.wine.com/v6/wineshop.
+* L2: Add the following fields to the Wine item: price, wine type, region, tag data (the JSON object following "var utag_data" in the HTML of each product page)
+* L3: Teach your spider to crawl through all pages to gather all 5000+ products
+* L4: Teach your spider to crawl one more level deep to get all ratings and reviews for each product and store as a list of WineReview items in the Wine item's customer_review and ratings fields
+* wine_login.py: create a login authentication aware spider
 
 
 Development Environment Setup Instructions

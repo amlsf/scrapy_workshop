@@ -23,6 +23,9 @@ class DrunkSpider(Spider):
 
     # TODO add pagination logic here
     def parse(self, response):
+        """
+        :type response: HtmlResponse
+        """
         pass
         """
 <a id="ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext"
@@ -73,23 +76,21 @@ http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
             wine_product['wine_type'] = wine_type
 
         tag_data_list = response.xpath(
-            '/html/head/link[contains(@href,"//fonts.googleapis.com")]/following-sibling::*/text()').extract()
-        # TODO change to regex
+            '/html/head/link[contains(@href,"//fonts.googleapis.com")]'
+            '/following-sibling::script/text()').extract()
         if tag_data_list:
-            tag_data_str = tag_data_list[0]
-            start = tag_data_str.find('{')
-            end = tag_data_str.rfind('}')
-            if start != -1 and end != -1:
-                tag_data_json = tag_data_str[start:end+1]
+            #: type: unicode
+            tag_body = tag_data_list[0]
+            tag_body1line = re.sub(r'[\r\n]', '', tag_body)
+            tag_json = re.sub(r';\s*$', '',
+                              re.sub('^\s*var\s*[^{]+', '', tag_body1line))
+            tag_data = json.loads(tag_json)
+            wine_product['tag_data'] = tag_data
 
-                tag_data = json.loads(tag_data_json)
-
-                wine_product['tag_data'] = tag_data
-
-                omniture_props = tag_data.get('OmnitureProps')
-                if omniture_props:
-                    region = omniture_props.get("Region")
-                    if region:
-                        wine_product['region'] = region
+            omniture_props = tag_data.get('OmnitureProps')
+            if omniture_props:
+                region = omniture_props.get("Region")
+                if region:
+                    wine_product['region'] = region
 
         yield wine_product

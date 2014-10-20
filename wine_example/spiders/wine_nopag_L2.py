@@ -25,6 +25,9 @@ class DrunkSpider(Spider):
     start_urls = ['http://www.wine.com/v6/wineshop/']
 
     def parse(self, response):
+        """
+        :type response: HtmlResponse
+        """
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
 

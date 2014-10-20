@@ -22,7 +22,7 @@ class DrunkSpider(Spider):
 
     def parse(self, response):
         """
-        :type response: scrapy.http.response.html.HtmlResponse
+        :type response: HtmlResponse
         """
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')

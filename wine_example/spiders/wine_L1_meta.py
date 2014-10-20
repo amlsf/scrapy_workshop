@@ -17,6 +17,9 @@ class MetaDrunkSpider(DrunkSpider):
     name = '%s-meta' % DrunkSpider.name
 
     def parse(self, response):
+        """
+        :type response: HtmlResponse
+        """
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
 
