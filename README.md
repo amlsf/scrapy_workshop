@@ -11,9 +11,9 @@ There are four scrapers (Level 1 - 4) that collect data about the wine products 
 * L1: Create a spider that creates an item type named 'Wine' containing link and product name fields for each wine product on the first page of 25 wine products at www.wine.com/v6/wineshop.
 * L2: Add the following fields to the Wine item: price, wine type, region, tag data (the JSON object following "var utag_data" in the HTML of each product page)
 * L3: Teach your spider to crawl through all pages to gather all 5000+ products
-* L4: Teach your spider to crawl one more level deep to get all ratings and reviews for each product and store as a list of WineReview items in the Wine item's customer_review and ratings fields
 * wine_login.py: create a login authentication aware spider
 
+* Challenge on your own: Teach your spider to crawl one more level deep to get all ratings and reviews for each product and store as a list of WineReview items in the Wine item's customer_review and ratings fields
 
 Development Environment Setup Instructions
 ------------------------------------------

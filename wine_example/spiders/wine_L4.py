@@ -6,9 +6,13 @@ import re
 import urlparse
 import json
 
+# CHALLENGE: Complete this section on your own at home. Part of it has already been set up for you.
+# Crawl one more page deep to collect all reviews and ratings for each wine product
+
 
 class WineReviewItem(Item):
     review = Field()
+    rating = Field()
 
 
 class WineItem(Item):
@@ -18,22 +22,17 @@ class WineItem(Item):
     wine_type = Field()
     region = Field()
 
-    customer_review = Field()
-    rating = WineReviewItem()
+    customer_reviews = Field()  # list of WineReviewItems
 
 
 class DrunkSpider(Spider):
     name = 'wine-demo-L4'
-    start_urls = ['http://www.wine.com/v6/wineshop/']
+    start_urls = ['http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100']
 
-    # TODO add pagination logic here
     def parse(self, response):
         """
         :type response: HtmlResponse
         """
-        pass
-
-    def get_product_links(self, response):
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
 
@@ -65,6 +64,14 @@ class DrunkSpider(Spider):
 
             request = Request(wine_product['link'], meta=meta, callback=self.parse_product_page)
             yield request
+
+        # Pagination, keep going until there is no next page left
+        next_page_list = response.css('.listPaging '
+                              '#ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext::attr(href)').extract()
+        if next_page_list:
+            next_page_link = urlparse.urljoin(response.url, next_page_list[0])
+            next_page_request = Request(next_page_link, callback=self.parse)
+            yield next_page_request
 
     def parse_product_page(self, response):
         meta = response.meta
@@ -106,7 +113,7 @@ class DrunkSpider(Spider):
         else:
             yield wine_product
 
-    # TODO add code to grab ratings & reviews
     @staticmethod
     def get_prod_reviews(response):
+        # Fill in your code here
         pass

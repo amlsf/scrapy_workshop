@@ -17,23 +17,21 @@ class WineItem(Item):
 
 class DrunkSpider(Spider):
     name = 'wine-demo-L3'
+    # change the page to increase to 100 items per page
     start_urls = ['http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100']
 
-    # TODO add pagination logic here
+    """
+    <a id="ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext"
+    href="/v6/wineshop/default.aspx?state=CA&amp;pagelength=100&amp;Nao=100">Next</a>
+
+    Bottoms out at 5100:
+    http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
+    """
+
     def parse(self, response):
         """
         :type response: HtmlResponse
         """
-        pass
-        """
-<a id="ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext"
-   href="/v6/wineshop/default.aspx?state=CA&amp;pagelength=100&amp;Nao=100">Next</a>
-
-Bottoms out at 5100:
-http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
-        """
-
-    def get_product_links(self, response):
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
 
@@ -65,6 +63,14 @@ http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
 
             request = Request(wine_product['link'], meta=meta, callback=self.parse_product_page)
             yield request
+
+        # Pagination, keep going until there is no next page left
+        next_page_list = response.css('.listPaging '
+                              '#ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext::attr(href)').extract()
+        if next_page_list:
+            next_page_link = urlparse.urljoin(response.url, next_page_list[0])
+            next_page_request = Request(next_page_link, callback=self.parse)
+            yield next_page_request
 
     @staticmethod
     def parse_product_page(response):
@@ -99,4 +105,4 @@ http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
                 if region:
                     wine_product['region'] = region
 
-        yield wine_product
+            yield wine_product
