@@ -13,7 +13,7 @@ There are four scrapers (Level 1 - 4) that collect data about the wine products 
 * L3: Teach your spider to crawl through all pages to gather all 5000+ products
 * wine_login.py: create a login authentication aware spider
 
-* Challenge on your own: Teach your spider to crawl one more level deep to get all ratings and reviews for each product and store as a list of WineReview items in the Wine item's customer_review and ratings fields
+* L4: Complete this part on your own. Parts of it have already been set up for you. Teach your spider to crawl one more level deep to scrape all ratings and reviews for each product and store as a list of WineReviewItems WineItem's customer_review field
 
 Development Environment Setup Instructions
 ------------------------------------------
