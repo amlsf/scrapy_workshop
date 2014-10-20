@@ -1,5 +1,5 @@
-Scrapy Workshop Samples
-=======================
+Scrapy Workshop Demo Spiders
+============================
 
 This repo contains Scrapy parsers demonstrated in Radius Intelligence's workshop "Data Collection with Scrapy: Build &amp; Manage Production Web Scraping Pipelines".
 

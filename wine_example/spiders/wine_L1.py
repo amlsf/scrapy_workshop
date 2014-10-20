@@ -7,7 +7,7 @@ import urlparse
 # Notes: 1) explain defaults start_requests & parse() method and 2) introduce meta
 
 
-class Wine(Item):
+class WineItem(Item):
     link = Field()
     name = Field()
 
@@ -41,7 +41,7 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def parse_product_page(response):
-        wine_product = Wine()
+        wine_product = WineItem()
         wine_product['link'] = response.url
 
         product = response.css('[itemtype="http://schema.org/Product"]')

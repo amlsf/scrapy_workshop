@@ -8,11 +8,11 @@ import json
 # Add gathering customer reviews & ratings
 
 
-class WineReview(Item):
+class WineReviewItem(Item):
     review = Field()
 
 
-class Wine(Item):
+class WineItem(Item):
     link = Field()
     name = Field()
     price = Field()
@@ -20,7 +20,7 @@ class Wine(Item):
     tag_data = Field()
     region = Field()
     customer_review = Field()
-    rating = WineReview()
+    rating = WineReviewItem()
 
 
 class DrunkSpider(Spider):
@@ -56,7 +56,7 @@ class DrunkSpider(Spider):
             yield request
 
     def parse_product_page(self, response):
-        wine_product = Wine()
+        wine_product = WineItem()
         wine_product['link'] = response.url
 
         meta = response.meta

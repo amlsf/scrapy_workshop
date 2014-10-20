@@ -9,7 +9,7 @@ import json
 # Notes: adds additional attributes, uses XPath; show 2nd way to get price from javascript script tag
 
 
-class Wine(Item):
+class WineItem(Item):
     link = Field()
     name = Field()
     price = Field()
@@ -50,7 +50,7 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def parse_product_page(response):
-        wine_product = Wine()
+        wine_product = WineItem()
         wine_product['link'] = response.url
 
         meta = response.meta

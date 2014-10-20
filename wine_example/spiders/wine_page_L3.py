@@ -8,7 +8,7 @@ import json
 # Notes: adds pagination
 
 
-class Wine(Item):
+class WineItem(Item):
     link = Field()
     name = Field()
     price = Field()
@@ -58,7 +58,7 @@ http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
 
     @staticmethod
     def parse_product_page(response):
-        wine_product = Wine()
+        wine_product = WineItem()
         wine_product['link'] = response.url
 
         meta = response.meta
