@@ -20,14 +20,6 @@ class DrunkSpider(Spider):
     # change the page to increase to 100 items per page
     start_urls = ['http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100']
 
-    """
-    <a id="ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext"
-    href="/v6/wineshop/default.aspx?state=CA&amp;pagelength=100&amp;Nao=100">Next</a>
-
-    Bottoms out at 5100:
-    http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5100
-    """
-
     def parse(self, response):
         """
         :type response: scrapy.http.HtmlResponse
@@ -64,6 +56,14 @@ class DrunkSpider(Spider):
 
             request = Request(wine_product['link'], meta=meta, callback=self.parse_product_page)
             yield request
+
+        """
+        <a id="ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext"
+        href="/v6/wineshop/default.aspx?Nao=100">Next</a>
+
+        Bottoms out at 5200:
+        http://www.wine.com/v6/wineshop/default.aspx?state=CA&pagelength=100&Nao=5200
+        """
 
         # Pagination, keep going until there is no next page left
         next_page_list = response.css('.listPaging a[id$=lnkNext]').xpath('@href').extract()
