@@ -65,8 +65,7 @@ class DrunkSpider(Spider):
             yield request
 
         # Pagination, keep going until there is no next page left
-        next_page_list = response.css('.listPaging '
-                              '#ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext::attr(href)').extract()
+        next_page_list = response.css('.listPaging a[id$=lnkNext]').xpath('@href').extract()
         if next_page_list:
             next_page_link = urlparse.urljoin(response.url, next_page_list[0])
             next_page_request = Request(next_page_link, callback=self.parse)
@@ -86,7 +85,7 @@ class DrunkSpider(Spider):
             wine_type = wine_type_list[0]
             wine_product['wine_type'] = wine_type
 
-        # get JSON from html to get region field
+        # get JSON from html using regex in order to retrieve Wine's 'field' region
         tag_data_list = response.xpath(
             '/html/head/link[contains(@href,"//fonts.googleapis.com")]'
             '/following-sibling::script/text()').extract()

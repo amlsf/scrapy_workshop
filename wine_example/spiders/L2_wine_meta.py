@@ -71,7 +71,7 @@ class DrunkSpider(Spider):
             wine_type = wine_type_list[0]
             wine_product['wine_type'] = wine_type
 
-        # get JSON from html to get region field
+        # get JSON from html using regex in order to retrieve Wine's 'field' region
         tag_data_list = response.xpath(
             '/html/head/link[contains(@href,"//fonts.googleapis.com")]'
             '/following-sibling::script/text()').extract()
