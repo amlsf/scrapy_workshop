@@ -12,7 +12,7 @@ import scrapy.log as _log
 
 
 class AuthenticatedDrunkSpider(Spider):
-    name = 'authed-wine-spider'
+    name = 'authed-wine-spider-L5'
 
     def start_requests(self):
         u = 'https://www.wine.com/v6/account/login.aspx'

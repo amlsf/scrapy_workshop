@@ -6,8 +6,7 @@ import re
 import urlparse
 import json
 
-# CHALLENGE: Complete this section on your own at home. Part of it has already been set up for you.
-# Crawl one more page deep to collect all reviews and ratings for each wine product
+# CHALLENGE: Complete this section on your own at home. Crawl one more page deep to collect all reviews and ratings for each wine product
 
 
 class WineReviewItem(Item):
@@ -115,5 +114,5 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def get_prod_reviews(response):
-        # Fill in your code here
+        # Fill in your code here (hint: you might need to create a new Item type)
         pass
