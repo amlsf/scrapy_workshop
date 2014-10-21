@@ -9,18 +9,22 @@ There are five scrapers (Level 1 - 5) that collect data about the wine products 
 
 * __L0 (wine_example/spiders/L0_barespider.py)__
     * set up basic spider to fetch yahoo url
+
 * __L1 (wine_example/spiders/L1_wine.py)__
-    * Create a spider that creates an item type named 'Wine' containing link and product name fields for each wine product on the first page of 25 wine products at <www.wine.com/v6/wineshop>
+    * Create a spider that returns an item type named 'Wine' containing the fields: 1) the specific product page link, 2) product name, and 3) the current sell price. Only do this for the first page of 25 wine products at www.wine.com/v6/wineshop
+
 * __L2 (wine_example/spiders/L2_wine_meta.py)__
-    * Add the following fields to the Wine item: price, wine type, region, tag data (the JSON object following `var utag_data` in the HTML of each product page)
+    * Add to the Wine item the following fields: 1) wine type and 2) region.
+
 * __L3 (wine_example/spiders/L3_wine_pagination.py)__
-    * Teach your spider to crawl through all pages to gather all 5000+ products
+    * Teach your spider to crawl through all product pages to gather all 5000+ products
+
 * __L5 (wine_example/spiders/L4_wine_Reviews.py)__
     * Create a login authentication aware spider
 
-######Take-Home Challenge:
+#####Take-Home Challenge:
 * __L4 (wine_example/spiders/L4_wine_reviews.py)__
-    * Complete this part on your own. Teach your spider to crawl one more level deep to scrape all ratings and reviews for each product. Good luck and have fun!
+    * Complete this part on your own. Teach your spider to crawl one more page level deep to scrape all ratings and reviews for each product. Good luck and have fun!
 
 
 
