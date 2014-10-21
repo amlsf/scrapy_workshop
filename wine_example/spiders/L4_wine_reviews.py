@@ -6,12 +6,8 @@ import re
 import urlparse
 import json
 
-# CHALLENGE: Complete this section on your own at home. Crawl one more page deep to collect all reviews and ratings for each wine product
-
-
-class WineReviewItem(Item):
-    review = Field()
-    rating = Field()
+# CHALLENGE: Complete this section on your own at home. Crawl one more page deep to collect all reviews and ratings
+# for each wine product
 
 
 class WineItem(Item):
@@ -20,8 +16,6 @@ class WineItem(Item):
     price = Field()
     wine_type = Field()
     region = Field()
-
-    customer_reviews = Field()  # list of WineReviewItems
 
 
 class DrunkSpider(Spider):
@@ -65,8 +59,7 @@ class DrunkSpider(Spider):
             yield request
 
         # Pagination, keep going until there is no next page left
-        next_page_list = response.css('.listPaging '
-                              '#ctl00_BodyContent_ctrProducts_ctrPagingBottom_lnkNext::attr(href)').extract()
+        next_page_list = response.css('.listPaging a[id$=lnkNext]').xpath('@href').extract()
         if next_page_list:
             next_page_link = urlparse.urljoin(response.url, next_page_list[0])
             next_page_request = Request(next_page_link, callback=self.parse)
@@ -85,7 +78,7 @@ class DrunkSpider(Spider):
             wine_type = wine_type_list[0]
             wine_product['wine_type'] = wine_type
 
-        # get JSON from html to get region field
+        # get JSON from html using regex in order to retrieve Wine's 'field' region
         tag_data_list = response.xpath(
             '/html/head/link[contains(@href,"//fonts.googleapis.com")]'
             '/following-sibling::script/text()').extract()
@@ -104,6 +97,7 @@ class DrunkSpider(Spider):
                 if region:
                     wine_product['region'] = region
 
+        # If a link to view all reviews exists, create Request object, otherwise, yield Wine item
         reviews_link_list = response.css('#ctl00_BodyContent_lnkViewAll::attr(href)').extract()
         if reviews_link_list:
             all_reviews_link = urlparse.urljoin(response.url, reviews_link_list[0])
@@ -114,5 +108,5 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def get_prod_reviews(response):
-        # Fill in your code here (hint: you might need to create a new Item type)
+        # Fill in your code here (hint: you might need to create a new Item class)
         pass
