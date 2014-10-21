@@ -24,4 +24,4 @@ class DrunkSpider(Spider):
         """
         :type response: scrapy.http.HtmlResponse
         """
-        self.log('Fetched URL: %s' % response.url)
+        self.log('YAY!!! successfully fetched URL: %s' % response.url)

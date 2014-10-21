@@ -27,9 +27,7 @@ class DrunkSpider(Spider):
             wine_product = WineItem()
 
             # get product link
-            links_list = product.css('.listProductName::attr(href)').extract()
-            # Another way:
-            # links_list = product.css('.listProductName').xpath('@href').extract()
+            links_list = product.css('.listProductName').xpath('@href').extract()
             if not links_list:
                 continue
 
@@ -37,14 +35,12 @@ class DrunkSpider(Spider):
             wine_product['link'] = urlparse.urljoin(response.url, link)
 
             # get name
-            wine_name = product.css('.listProductName::text').extract()
-            # Another way:
-            # wine_name = product.css('.listProductName').xpath('text()').extract()
+            wine_name = product.css('.listProductName').xpath('text()').extract()
             if wine_name:
                 wine_product['name'] = wine_name[0]
 
             # get price
-            price_list = product.css('[itemprop="price"]::text').extract()
+            price_list = product.css('[itemprop="price"]').xpath('text()').extract()
             if price_list:
                 current_price = price_list[0]
                 wine_product['price'] = current_price
