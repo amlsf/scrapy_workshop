@@ -23,14 +23,14 @@ The spiders that collect data about the wine products from www.wine.com. The fiv
     * Teach your spider to crawl through all product pages to gather all 5000+ products
 
 
+* __Wine_login.py__ (wine_example/spiders/wine_login.py)__
+    * Create a login authentication aware spider
+
+
+
 #####Take-Home Challenge:
 * __L4 (wine_example/spiders/L4_wine_reviews.py)__
     * Complete this part on your own. Teach your spider to crawl one more page level deep to scrape all ratings and reviews for each product. Good luck and have fun!
-
-
-
-* __Wine_login__ (wine_example/spiders/wine_login.py)__
-    * Create a login authentication aware spider
 
 
 
