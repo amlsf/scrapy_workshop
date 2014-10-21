@@ -1,17 +1,16 @@
-import scrapy
-# TODO add basic CSS or XPath Selector
+from scrapy import Request, Spider
 
 
-class BasicSpider(scrapy.Spider):
+class BasicSpider(Spider):
     name = 'bare_bones'
-    # start_urls = ['http://www.yahoo.com']
+    # start_urls = ['http://www.wine.com/v6/wineshop/']
 
     def start_requests(self):
         """
         :rtype: scrapy.http.Request
         """
-        for url in ['http://www.yahoo.com']:
-            yield scrapy.Request(url,  callback=self.parse)
+        for url in ['http://www.wine.com/v6/wineshop/']:
+            yield Request(url, callback=self.parse)
 
     def parse(self, response):
         """
