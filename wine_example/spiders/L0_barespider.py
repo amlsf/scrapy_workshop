@@ -2,9 +2,7 @@ from scrapy import Request, Spider, Item, Field
 
 
 class WineItem(Item):
-    link = Field()
-    name = Field()
-    price = Field()
+    all_html = Field()
 
 
 class DrunkSpider(Spider):
@@ -25,3 +23,12 @@ class DrunkSpider(Spider):
         :type response: scrapy.http.HtmlResponse
         """
         self.log('YAY!!! successfully fetched URL: %s' % response.url)
+
+        # wine_product = WineItem()
+        #
+        # html_selector = response.css('html')
+        # html_str_list = html_selector.extract()
+        # wine_product['all_html'] = html_str_list[0]
+        #
+        # yield wine_product
+
