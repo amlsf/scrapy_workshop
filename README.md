@@ -1,30 +1,36 @@
 Scrapy Workshop Demo Spiders
 ============================
 
-This repo contains Scrapy parsers demonstrated in Radius Intelligence's workshop "Data Collection with Scrapy: Build &amp; Manage Production Web Scraping Pipelines".
+This repo contains Scrapy spiders demonstrated in Radius Intelligence's workshop "Data Collection with Scrapy: Build &amp; Manage Production Web Scraping Pipelines".
 
 [Presentation materials available here](https://docs.google.com/a/radius.com/presentation/d/1QUbdzaI7fRwY1lspgCPnZ5as-NAZzBjYEsuyKrOIBlM/edit#slide=id.g26c11f2d3_02)
 
-There are five scrapers (Level 1 - 5) that collect data about the wine products from www.wine.com. The tasks are broken out into approximately five levels:
+The spiders that collect data about the wine products from www.wine.com. The five spiders are broken out into 5 levels that build new concepts on top of each other.
 
 * __L0 (wine_example/spiders/L0_barespider.py)__
-    * set up basic spider to fetch yahoo url
+    * set up basic spider to fetch from wine.com url
+
 
 * __L1 (wine_example/spiders/L1_wine.py)__
     * Create a spider that returns an item type named 'Wine' containing the fields: 1) the specific product page link, 2) product name, and 3) the current sell price. Only do this for the first page of 25 wine products at www.wine.com/v6/wineshop
 
+
 * __L2 (wine_example/spiders/L2_wine_meta.py)__
     * Add to the Wine item the following fields: 1) wine type and 2) region.
+
 
 * __L3 (wine_example/spiders/L3_wine_pagination.py)__
     * Teach your spider to crawl through all product pages to gather all 5000+ products
 
-* __L5 (wine_example/spiders/L4_wine_Reviews.py)__
-    * Create a login authentication aware spider
 
 #####Take-Home Challenge:
 * __L4 (wine_example/spiders/L4_wine_reviews.py)__
     * Complete this part on your own. Teach your spider to crawl one more page level deep to scrape all ratings and reviews for each product. Good luck and have fun!
+
+
+
+* __Wine_login__ (wine_example/spiders/wine_login.py)__
+    * Create a login authentication aware spider
 
 
 

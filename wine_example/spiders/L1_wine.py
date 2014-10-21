@@ -27,6 +27,8 @@ class DrunkSpider(Spider):
 
             # get product link
             links_list = product.css('.listProductName::attr(href)').extract()
+            # Another way:
+            # links_list = product.css('.listProductName').xpath('@href').extract()
             if not links_list:
                 continue
 
@@ -35,6 +37,8 @@ class DrunkSpider(Spider):
 
             # get name
             wine_name = product.css('.listProductName::text').extract()
+            # Another way:
+            # wine_name = product.css('.listProductName').xpath('text()').extract()
             if wine_name:
                 wine_product['name'] = wine_name[0]
 
