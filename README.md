@@ -7,19 +7,19 @@ This repo contains Scrapy parsers demonstrated in Radius Intelligence's workshop
 
 There are five scrapers (Level 1 - 5) that collect data about the wine products from www.wine.com. The tasks are broken out into approximately five levels:
 
-* L0 (wine_example/spiders/L0_barespider.py)
+* __L0 (wine_example/spiders/L0_barespider.py)__
     * set up basic spider to fetch yahoo url
-* L1 (wine_example/spiders/L1_wine.py)
+* __L1 (wine_example/spiders/L1_wine.py)__
     * Create a spider that creates an item type named 'Wine' containing link and product name fields for each wine product on the first page of 25 wine products at <www.wine.com/v6/wineshop>
-* L2 (wine_example/spiders/L2_wine_meta.py)
+* __L2 (wine_example/spiders/L2_wine_meta.py)__
     * Add the following fields to the Wine item: price, wine type, region, tag data (the JSON object following `var utag_data` in the HTML of each product page)
-* L3 (wine_example/spiders/L3_wine_pagination.py)
+* __L3 (wine_example/spiders/L3_wine_pagination.py)__
     * Teach your spider to crawl through all pages to gather all 5000+ products
-* L5 (wine_example/spiders/L4_wine_Reviews.py)
+* __L5 (wine_example/spiders/L4_wine_Reviews.py)__
     * Create a login authentication aware spider
 
 ######Take-Home Challenge:
-* L4 (wine_example/spiders/L4_wine_reviews.py)
+* __L4 (wine_example/spiders/L4_wine_reviews.py)__
     * Complete this part on your own. Teach your spider to crawl one more level deep to scrape all ratings and reviews for each product. Good luck and have fun!
 
 
