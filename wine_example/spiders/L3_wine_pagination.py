@@ -30,7 +30,8 @@ class DrunkSpider(Spider):
 
     def parse(self, response):
         """
-        :type response: HtmlResponse
+        :type response: scrapy.http.HtmlResponse
+        :rtype: scrapy.http.Request
         """
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
@@ -73,6 +74,10 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def parse_product_page(response):
+        """
+        :type response: scrapy.http.HtmlResponse
+        :rtype: WineItem
+        """
         meta = response.meta
         if meta and 'wine_item' in meta:
             wine_product = meta['wine_item']

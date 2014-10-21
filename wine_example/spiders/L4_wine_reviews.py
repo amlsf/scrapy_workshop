@@ -24,7 +24,8 @@ class DrunkSpider(Spider):
 
     def parse(self, response):
         """
-        :type response: HtmlResponse
+        :type response: scrapy.http.HtmlResponse
+        :rtype: scrapy.http.Request
         """
         product_list = response.css('.productList')
         products = product_list.css('.verticalListItem')
@@ -66,6 +67,10 @@ class DrunkSpider(Spider):
             yield next_page_request
 
     def parse_product_page(self, response):
+        """
+        :type response: scrapy.http.HtmlResponse
+        :rtype: scrapy.http.Request or WineItem
+        """
         meta = response.meta
         if meta and 'wine_item' in meta:
             wine_product = meta['wine_item']
@@ -108,5 +113,9 @@ class DrunkSpider(Spider):
 
     @staticmethod
     def get_prod_reviews(response):
+        """
+        :type response: scrapy.http.HtmlResponse
+        :rtype: WineItem
+        """
         # Fill in your code here (hint: you might need to create a new Item class)
         pass
