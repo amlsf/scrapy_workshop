@@ -23,7 +23,7 @@ The spiders that collect data about the wine products from www.wine.com. The var
     * Teach your spider to crawl through all product pages to gather all 5000+ products
 
 
-* __Wine_login.py__ (wine_example/spiders/wine_login.py)__
+* __Wine_login.py (wine_example/spiders/wine_login.py)__
     * Create a login authentication aware spider
 
 
